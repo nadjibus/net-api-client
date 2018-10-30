@@ -63,13 +63,13 @@ namespace Recombee.ApiClient
             return ParseResponse(json, request);
         }
 
-        public async Task<IEnumerable<Recommendation>> Send(UserBasedRecommendation request)
+        public async Task<IEnumerable<Recommendation>> SendAsync(UserBasedRecommendation request)
         {
             var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
-        public async Task<IEnumerable<Recommendation>> Send(ItemBasedRecommendation request)
+        public async Task<IEnumerable<Recommendation>> SendAsync(ItemBasedRecommendation request)
         {
             var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
@@ -130,7 +130,7 @@ namespace Recombee.ApiClient
             }
         }
 
-        public async Task<Item> Send(GetItemValues request)
+        public async Task<Item> SendAsync(GetItemValues request)
         {
             var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
@@ -142,7 +142,7 @@ namespace Recombee.ApiClient
             return new Item(request.ItemId, vals);
         }
 
-        public async Task<User> Send(GetUserValues request)
+        public async Task<User> SendAsync(GetUserValues request)
         {
             var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);

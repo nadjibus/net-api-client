@@ -18,13 +18,13 @@
     <AssemblyTitle>Recombee API Client</AssemblyTitle>
     <Description>Enhanced Recombee SDK API client with Async methods, the possibility of supplying your own HttpClient instance. and bug fixes.</Description>
     <Copyright>Recombee</Copyright>
-    <PackageTags>recombee;recommendation engine;recommender engine;machine learning;API;SDK</PackageTags>
+    <PackageTags>recombee;recommendation engine;recommender engine;machine learning;API;SDK;async;HttpClient</PackageTags>
     <PackageIconUrl>http://raw.github.com/nadjibus/net-api-client/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>http://github.com/nadjibus/net-api-client</PackageProjectUrl>
     <PackageLicenseUrl>http://raw.github.com/Recombee/net-api-client/master/LICENSE.txt</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>AyncRecombeeApiClient</PackageId>
+    <PackageId>RecombeeAsyncApiClient</PackageId>
     <PackageReleaseNotes>- Async methods
 - You can supply your own HttpClient
 - Removed .NET Core 1.1/2.0 targets (not needed since it targets .NET Standard)

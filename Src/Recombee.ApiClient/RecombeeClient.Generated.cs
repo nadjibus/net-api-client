@@ -29,44 +29,6 @@ namespace Recombee.ApiClient
             return ParseResponse(json, request);
         }
 
-
-
-        /// <summary>Send the ItemBasedRecommendation request</summary>
-        /// <param name="request">Request to be sent</param>
-        /// <returns>Response from the API</returns>
-        public async Task<IEnumerable<Recommendation>> SendAsync(ItemBasedRecommendation request)
-        {
-            var json = await SendRequestAsync(request).ConfigureAwait(false);
-            return ParseResponse(json, request);
-        }
-
-        /// <summary>Send the UserBasedRecommendation request</summary>
-        /// <param name="request">Request to be sent</param>
-        /// <returns>Response from the API</returns>
-        public async Task<IEnumerable<Recommendation>> SendAsync(UserBasedRecommendation request)
-        {
-            var json = await SendRequestAsync(request).ConfigureAwait(false);
-            return ParseResponse(json, request);
-        }
-
-        /// <summary>Send the GetItemValues request</summary>
-        /// <param name="request">Request to be sent</param>
-        /// <returns>Response from the API</returns>
-        public async Task<Item> SendAsync(GetItemValues request)
-        {
-            var json = await SendRequestAsync(request).ConfigureAwait(false);
-            return ParseResponse(json, request);
-        }
-
-        /// <summary>Send the GetUserValues request</summary>
-        /// <param name="request">Request to be sent</param>
-        /// <returns>Response from the API</returns>
-        public async Task<User> SendAsync(GetUserValues request)
-        {
-            var json = await SendRequestAsync(request).ConfigureAwait(false);
-            return ParseResponse(json, request);
-        }
-
         /// <summary>Parse JSON response</summary>
         /// <param name="json">JSON string from the API</param>
         /// <param name="request">Request sent to the API</param>
