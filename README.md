@@ -1,14 +1,22 @@
 # Recombee Async API Client (because it's no longer 2003)
 
-A .NET client (SDK) for easy use of the [Recombee](https://www.recombee.com/) recommendation API.
+## What's different from the orginal SDK
+- All requests are now Async (SendAsync instead of Send)
+- Possibility to supply your own HttpClient instance in the constructor
+- Bug fixes
+
+
+.NET client (SDK) for easy use of the [Recombee](https://www.recombee.com/) recommendation API.
 
 If you don't have an account at Recombee yet, you can create a free account [here](https://www.recombee.com/).
 
 Documentation of the API can be found at [docs.recombee.com](https://docs.recombee.com/).
 
+
+
 ## Installation
 
-To install RecombeeAsyncApiClient, run the following command in the Package Manager Console
+Run the following command in the Package Manager Console
 ```
 Install-Package RecombeeAsyncApiClient
 ```
@@ -27,7 +35,7 @@ using Recombee.ApiClient.Bindings;
 
 public class BasicExample
 {
-    static int Main(string[] args)
+    static async Task Main(string[] args)
     {
         RecombeeClient client = new RecombeeClient("--my-database-id--", "--my-secret-token--");
 
@@ -51,10 +59,10 @@ public class BasicExample
             }
 
             Console.WriteLine("Send purchases");
-            client.Send(new Batch(purchases)); //Use Batch for faster processing of larger data
+            await client.SendAsync(new Batch(purchases)); //Use Batch for faster processing of larger data
 
             // Get 5 recommendations for user 'user-25'
-            RecommendationResponse recommendationResponse = client.Send(new RecommendItemsToUser("user-25", 5));
+            RecommendationResponse recommendationResponse = await client.SendAsync(new RecommendItemsToUser("user-25", 5));
             Console.WriteLine("Recommended items:");
             foreach(Recommendation rec in recommendationResponse.Recomms) Console.WriteLine(rec.Id);
 
@@ -83,7 +91,7 @@ using Recombee.ApiClient.Bindings;
 
 public class PropertiesExample
 {
-    static int Main(string[] args)
+    static async Task Main(string[] args)
     {
         RecombeeClient client = new RecombeeClient("--my-database-id--", "--my-secret-token--");
 
@@ -98,11 +106,11 @@ public class PropertiesExample
 
          try
          {
-            client.Send(new ResetDatabase());
-            client.Send(new AddItemProperty("price", "double"));
-            client.Send(new AddItemProperty("num-cores", "int"));
-            client.Send(new AddItemProperty("description", "string"));
-            client.Send(new AddItemProperty("image", "image"));
+            await client.SendAsync(new ResetDatabase());
+            await client.SendAsync(new AddItemProperty("price", "double"));
+            await client.SendAsync(new AddItemProperty("num-cores", "int"));
+            await client.SendAsync(new AddItemProperty("description", "string"));
+            await client.SendAsync(new AddItemProperty("image", "image"));
 
             // Prepare requests for setting a catalog of computers
             var requests = new List<Request>();
@@ -126,7 +134,8 @@ public class PropertiesExample
                                            
                 requests.Add(req);
             }
-            client.Send(new Batch(requests)); // Send catalog to the recommender system
+            
+            await client.SendAsync(new Batch(requests)); // Send catalog to the recommender system
 
             // Generate some random purchases of items by users
             var userIds = Enumerable.Range(0, NUM).Select(i => String.Format("user-{0}", i));
@@ -142,23 +151,23 @@ public class PropertiesExample
                 );
             }
 
-            client.Send(new Batch(purchases)); // Send purchases to the recommender system
+            await client.SendAsync(new Batch(purchases)); // Send purchases to the recommender system
         
 
             // Get 5 recommendations for user-42, who is currently viewing computer-6
-            var recommendationResponse = client.Send(new RecommendItemsToItem("computer-6", "user-42", 5));
+            var recommendationResponse = await client.SendAsync(new RecommendItemsToItem("computer-6", "user-42", 5));
             Console.WriteLine("Recommended items:");
             foreach(Recommendation rec in recommendationResponse.Recomms) Console.WriteLine(rec.Id);
 
 
             // Recommend only computers that have at least 3 cores
-            recommendationResponse = client.Send(new RecommendItemsToItem("computer-6", "user-42", 5,
+            recommendationResponse = await client.SendAsync(new RecommendItemsToItem("computer-6", "user-42", 5,
                                             filter: " 'num-cores'>=3 "));
             Console.WriteLine("Recommended items with at least 3 processor cores:");
             foreach(Recommendation rec in recommendationResponse.Recomms) Console.WriteLine(rec.Id);
 
             // Recommend only items that are more expensive then currently viewed item (up-sell)
-            recommendationResponse = client.Send(new RecommendItemsToItem("computer-6", "user-42", 5,
+            recommendationResponse = await client.SendAsync(new RecommendItemsToItem("computer-6", "user-42", 5,
                                             filter: " 'price' > context_item[\"price\"] "));
             Console.WriteLine("Recommended up-sell items:");
             foreach(Recommendation rec in recommendationResponse.Recomms) Console.WriteLine(rec.Id);
