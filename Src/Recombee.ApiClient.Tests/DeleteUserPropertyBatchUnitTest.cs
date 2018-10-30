@@ -16,16 +16,16 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteUserProperty()
+        public async void TestDeleteUserProperty()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new DeleteUserProperty("int_property"),
                 new DeleteUserProperty("int_property"),
                 new DeleteUserProperty("$$$not_valid$$$"),
                 new DeleteUserProperty("not_existing")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(400, (int)batchResponse.StatusCodes.ElementAt(2));

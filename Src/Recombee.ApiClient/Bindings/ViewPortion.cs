@@ -12,53 +12,38 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>ViewPortion Binding</summary>
     public class ViewPortion: RecombeeBinding {
-        private readonly string userId;
         /// <summary>User who viewed a portion of the item</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Viewed item</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly double portion;
+        public string ItemId { get; }
+
         /// <summary>Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ). It should be the really viewed part of the item, no matter seeking, so for example if the user seeked immediately to half of the item and then viewed 10% of the item, the `portion` should still be `0.1`.</summary>
-        public double Portion
-        {
-            get {return portion;}
-        }
-        private readonly string sessionId;
+        public double Portion { get; }
+
         /// <summary>ID of session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc. depending on language).</summary>
-        public string SessionId
-        {
-            get {return sessionId;}
-        }
+        public string SessionId { get; }
+
         [JsonConverter(typeof(EpochJsonReader))]
-        private readonly DateTime? timestamp;
+        private readonly DateTime? _timestamp;
         /// <summary>UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
         [JsonConverter(typeof(EpochJsonReader))]
         public DateTime? Timestamp
         {
-            get {return timestamp;}
+            get {return _timestamp;}
         }
-        private readonly string recommId;
+
         /// <summary>If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         public ViewPortion (string userId, string itemId, double portion, string sessionId = null, DateTime? timestamp = null, string recommId = null)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.portion = portion;
-            this.sessionId = sessionId;
-            this.timestamp = timestamp;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.Portion = portion;
+            this.SessionId = sessionId;
+            this._timestamp = timestamp;
+            this.RecommId = recommId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

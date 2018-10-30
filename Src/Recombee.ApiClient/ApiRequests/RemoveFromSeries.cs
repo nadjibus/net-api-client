@@ -14,42 +14,29 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>Removes an existing series item from the series.</remarks>
     public class RemoveFromSeries : Request
     {
-        private readonly string seriesId;
         /// <summary>ID of the series from which a series item is to be removed.</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-        private readonly string itemType;
+        public string SeriesId { get; }
+
         /// <summary>Type of the item to be removed.</summary>
-        public string ItemType
-        {
-            get {return itemType;}
-        }
-        private readonly string itemId;
+        public string ItemType { get; }
+
         /// <summary>ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly double time;
+        public string ItemId { get; }
+
         /// <summary>Time index of the item to be removed.</summary>
-        public double Time
-        {
-            get {return time;}
-        }
-    
+        public double Time { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="seriesId">ID of the series from which a series item is to be removed.</param>
         /// <param name="itemType">Type of the item to be removed.</param>
         /// <param name="itemId">ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.</param>
         /// <param name="time">Time index of the item to be removed.</param>
-        public RemoveFromSeries (string seriesId, string itemType, string itemId, double time): base(HttpMethod.Delete, 1000)
+        public RemoveFromSeries (string seriesId, string itemType, string itemId, double time): base(HttpMethod.Delete, 10000)
         {
-            this.seriesId = seriesId;
-            this.itemType = itemType;
-            this.itemId = itemId;
-            this.time = time;
+            this.SeriesId = seriesId;
+            this.ItemType = itemType;
+            this.ItemId = itemId;
+            this.Time = time;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

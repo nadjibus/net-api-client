@@ -6,22 +6,22 @@ namespace Recombee.ApiClient.Bindings
     /// <summary>Base class for the entities</summary>
     public abstract class Entity: RecombeeBinding
     {
-        private readonly Dictionary<string, object> values;
+        private readonly Dictionary<string, object> _values;
         
         /// <summary>Values of properties</summary>
         public Dictionary<string, object> Values
         {
             get
             {
-                if(values == null)
+                if(_values == null)
                     throw new InvalidOperationException("The request was not meant to return values (use returnProperties parameter)");
-                return values;
+                return _values;
             }
         }
 
         public Entity(Dictionary<string, object> values)
         {
-            this.values = values;
+            this._values = values;
         }
     }
 }

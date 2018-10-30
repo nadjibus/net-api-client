@@ -12,23 +12,16 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>PropertyInfo Binding</summary>
     public class PropertyInfo: RecombeeBinding {
-        private readonly string name;
         /// <summary>Name of the property</summary>
-        public string Name
-        {
-            get {return name;}
-        }
-        private readonly string type;
+        public string Name { get; }
+
         /// <summary>Type of the property</summary>
-        public string Type
-        {
-            get {return type;}
-        }
-    
+        public string Type { get; }
+
         public PropertyInfo (string name = null, string type = null)
         {
-            this.name = name;
-            this.type = type;
+            this.Name = name;
+            this.Type = type;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

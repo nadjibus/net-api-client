@@ -16,9 +16,9 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddRating()
+        public async void TestAddRating()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddRating("u_id","i_id",1,cascadeCreate: true),
                 new AddRating("entity_id","entity_id",0),
                 new AddRating("entity_id","nonex_id",-1),
@@ -29,7 +29,7 @@ namespace Recombee.ApiClient.Tests
                 new AddRating("u_id","i_id",0.3,cascadeCreate: true,timestamp: UnixTimeStampToDateTime(5))
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(2));

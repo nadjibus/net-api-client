@@ -14,18 +14,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>List all the cart additions ever made by a given user.</remarks>
     public class ListUserCartAdditions : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user whose cart additions are to be listed.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-    
+        public string UserId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user whose cart additions are to be listed.</param>
         public ListUserCartAdditions (string userId): base(HttpMethod.Get, 100000)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

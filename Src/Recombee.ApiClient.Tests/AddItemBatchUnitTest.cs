@@ -16,16 +16,16 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddItem()
+        public async void TestAddItem()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddItem("valid_id"),
                 new AddItem("$$$not_valid$$$"),
                 new AddItem("valid_id2"),
                 new AddItem("valid_id2")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(400, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(2));

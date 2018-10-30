@@ -14,18 +14,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>List all the items present in the given series, sorted according to their time index values.</remarks>
     public class ListSeriesItems : Request
     {
-        private readonly string seriesId;
         /// <summary>ID of the series items of which are to be listed.</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-    
+        public string SeriesId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="seriesId">ID of the series items of which are to be listed.</param>
         public ListSeriesItems (string seriesId): base(HttpMethod.Get, 100000)
         {
-            this.seriesId = seriesId;
+            this.SeriesId = seriesId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

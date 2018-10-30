@@ -8,28 +8,19 @@ namespace Recombee.ApiClient.ApiRequests
     /// <summary>Set/update (some) property values of an entity</summary>
     public abstract class SetValues : Request
     {
-        private readonly bool? cascadeCreate;
-
         /// <summary>Sets whether the entity should be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
+        public bool? CascadeCreate { get; }
 
-        private readonly Dictionary<string, object> values;
         /// <summary>The values for the individual properties. </summary>
-        public Dictionary<string, object> Values
-        {
-            get {return values;}
-        }
+        public Dictionary<string, object> Values { get; }
 
         /// <summary>Construct the request</summary>
         /// <param name="values">The values for the individual properties. Key in the Dictionary is the name of the property and value is the value to be set.</param>
         /// <param name="cascadeCreate">Sets whether the entity should be created if not present in the database.</param>
-        public SetValues (Dictionary<string, object> values, bool? cascadeCreate = null): base(HttpMethod.Post, 1000)
+        public SetValues (Dictionary<string, object> values, bool? cascadeCreate = null): base(HttpMethod.Post, 10000)
         {
-            this.cascadeCreate = cascadeCreate;
-            this.values = values;
+            this.CascadeCreate = cascadeCreate;
+            this.Values = values;
         }
     
         /// <summary>Get query parameters</summary>
@@ -45,11 +36,11 @@ namespace Recombee.ApiClient.ApiRequests
         {
             if (CascadeCreate.HasValue)
             {
-                Dictionary<string, object> vals = new Dictionary<string, object>(values);
+                Dictionary<string, object> vals = new Dictionary<string, object>(Values);
                 vals["!cascadeCreate"] = CascadeCreate;
                 return vals;
             } 
-            return values;
+            return Values;
         }
     }
 }

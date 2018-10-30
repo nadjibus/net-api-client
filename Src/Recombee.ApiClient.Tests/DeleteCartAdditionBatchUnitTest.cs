@@ -16,14 +16,14 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteCartAddition()
+        public async void TestDeleteCartAddition()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new DeleteCartAddition("user","item",timestamp: UnixTimeStampToDateTime(0)),
                 new DeleteCartAddition("user","item")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(1));
         }

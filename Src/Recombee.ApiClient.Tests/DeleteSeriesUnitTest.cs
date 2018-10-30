@@ -16,17 +16,17 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteSeries()
+        public async void TestDeleteSeries()
         {
             DeleteSeries req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with existing entity id'
             req = new DeleteSeries("entity_id");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -37,7 +37,7 @@ namespace Recombee.ApiClient.Tests
             req = new DeleteSeries("$$$not_valid$$$");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -48,7 +48,7 @@ namespace Recombee.ApiClient.Tests
             req = new DeleteSeries("valid_id");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

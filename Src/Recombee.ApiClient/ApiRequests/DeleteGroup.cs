@@ -16,18 +16,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteGroup : Request
     {
-        private readonly string groupId;
         /// <summary>ID of the group to be deleted.</summary>
-        public string GroupId
-        {
-            get {return groupId;}
-        }
-    
+        public string GroupId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="groupId">ID of the group to be deleted.</param>
-        public DeleteGroup (string groupId): base(HttpMethod.Delete, 1000)
+        public DeleteGroup (string groupId): base(HttpMethod.Delete, 10000)
         {
-            this.groupId = groupId;
+            this.GroupId = groupId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

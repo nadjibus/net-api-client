@@ -8,28 +8,15 @@ namespace Recombee.ApiClient.ApiRequests
     /// <summary>Base class for all the requests</summary>
     public abstract class Request
     {
-        private TimeSpan timeout;
         /// <summary>Timeout for the request in milliseconds</summary>
-        public TimeSpan Timeout {
-            get {return timeout;}
-            set {timeout = value;}
-        }
+        public TimeSpan Timeout { get; set; }
 
-        private readonly bool ensureHttps;
         /// <summary>If true, HTTPS must be chosen over HTTP for this request</summary>
-         public bool EnsureHttps {
-            get {return ensureHttps;}
-        }
+        public bool EnsureHttps { get; }
 
 
-        private readonly HttpMethod httpMethod;
         /// <summary>Used HTTP method</summary>
-        public HttpMethod RequestHttpMehod
-        {
-            get {
-                return httpMethod;
-            }
-        }
+        public HttpMethod RequestHttpMethod { get; }
 
 
         /// <summary>Construct the request</summary>
@@ -38,9 +25,9 @@ namespace Recombee.ApiClient.ApiRequests
         /// <param name="ensureHttps">If true, HTTPS must be chosen over HTTP for this request</param>
         public Request(HttpMethod httpMethod, int timeoutMilliseconds, bool ensureHttps = false)
         {
-            this.httpMethod = httpMethod;
-            Timeout = new TimeSpan(0,0,0,0, timeoutMilliseconds);
-            this.ensureHttps = ensureHttps;
+            this.RequestHttpMethod = httpMethod;
+            Timeout = new TimeSpan(0, 0, 0, 0, timeoutMilliseconds);
+            this.EnsureHttps = ensureHttps;
         }
 
         /// <returns>URI to the endpoint including path parameters</returns>
@@ -57,8 +44,8 @@ namespace Recombee.ApiClient.ApiRequests
         /// <returns>Converts DateTime to UNIX timestamp (epoch)</returns>
         protected double ConvertToUnixTimestamp(DateTime date)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan diff = date.ToUniversalTime() - origin;
+            var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var diff = date.ToUniversalTime() - origin;
             return Math.Floor(diff.TotalSeconds);
         }
 

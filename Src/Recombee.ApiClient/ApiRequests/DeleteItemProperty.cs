@@ -15,18 +15,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteItemProperty : Request
     {
-        private readonly string propertyName;
         /// <summary>Name of the property to be deleted.</summary>
-        public string PropertyName
-        {
-            get {return propertyName;}
-        }
-    
+        public string PropertyName { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="propertyName">Name of the property to be deleted.</param>
         public DeleteItemProperty (string propertyName): base(HttpMethod.Delete, 100000)
         {
-            this.propertyName = propertyName;
+            this.PropertyName = propertyName;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

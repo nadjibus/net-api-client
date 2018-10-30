@@ -15,18 +15,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class ListUserViewPortions : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user whose view portions are to be listed.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-    
+        public string UserId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user whose view portions are to be listed.</param>
         public ListUserViewPortions (string userId): base(HttpMethod.Get, 100000)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

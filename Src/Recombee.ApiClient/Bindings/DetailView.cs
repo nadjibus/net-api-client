@@ -12,46 +12,34 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>DetailView Binding</summary>
     public class DetailView: RecombeeBinding {
-        private readonly string userId;
         /// <summary>User who viewed the item</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Viewed item</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
+        public string ItemId { get; }
+
         [JsonConverter(typeof(EpochJsonReader))]
-        private readonly DateTime? timestamp;
+        private readonly DateTime? _timestamp;
         /// <summary>UTC timestamp of the view as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
         [JsonConverter(typeof(EpochJsonReader))]
         public DateTime? Timestamp
         {
-            get {return timestamp;}
+            get {return _timestamp;}
         }
-        private readonly long? duration;
+
         /// <summary>Duration of the view</summary>
-        public long? Duration
-        {
-            get {return duration;}
-        }
-        private readonly string recommId;
+        public long? Duration { get; }
+
         /// <summary>If this detail view is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         public DetailView (string userId, string itemId, DateTime? timestamp = null, long? duration = null, string recommId = null)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
-            this.duration = duration;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this._timestamp = timestamp;
+            this.Duration = duration;
+            this.RecommId = recommId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

@@ -16,22 +16,22 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddRating()
+        public async void TestAddRating()
         {
             AddRating req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with cascadeCreate'
             req = new AddRating("u_id","i_id",1,cascadeCreate: true);
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'does not fail with existing item and user'
             req = new AddRating("entity_id","entity_id",0);
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'fails with nonexisting item id'
             req = new AddRating("entity_id","nonex_id",-1);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -42,7 +42,7 @@ namespace Recombee.ApiClient.Tests
             req = new AddRating("nonex_id","entity_id",0.5);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -53,7 +53,7 @@ namespace Recombee.ApiClient.Tests
             req = new AddRating("entity_id","entity_id",0,timestamp: UnixTimeStampToDateTime(-15));
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -64,7 +64,7 @@ namespace Recombee.ApiClient.Tests
             req = new AddRating("entity_id","entity_id",-2);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -73,10 +73,10 @@ namespace Recombee.ApiClient.Tests
             }
             // it 'really stores interaction to the system'
             req = new AddRating("u_id","i_id",0.3,cascadeCreate: true,timestamp: UnixTimeStampToDateTime(5));
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

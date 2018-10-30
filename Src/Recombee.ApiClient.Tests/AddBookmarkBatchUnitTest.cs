@@ -16,9 +16,9 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddBookmark()
+        public async void TestAddBookmark()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddBookmark("u_id","i_id",cascadeCreate: true),
                 new AddBookmark("entity_id","entity_id"),
                 new AddBookmark("entity_id","entity_id",timestamp: ParseDateTime("2013-10-29T09:38:41.341Z")),
@@ -29,7 +29,7 @@ namespace Recombee.ApiClient.Tests
                 new AddBookmark("u_id2","i_id2",cascadeCreate: true,timestamp: UnixTimeStampToDateTime(5))
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(2));

@@ -12,30 +12,20 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>SeriesItem Binding</summary>
     public class SeriesItem: RecombeeBinding {
-        private readonly string itemType;
         /// <summary>`item` iff the regular item from the catalog is to be inserted, `series` iff series is inserted as the item.</summary>
-        public string ItemType
-        {
-            get {return itemType;}
-        }
-        private readonly string itemId;
+        public string ItemType { get; }
+
         /// <summary>ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly double time;
+        public string ItemId { get; }
+
         /// <summary>Time index used for sorting items in the series. According to time, items are sorted within series in ascending order. In the example of TV show episodes, the episode number is a natural choice to be passed as time.</summary>
-        public double Time
-        {
-            get {return time;}
-        }
-    
+        public double Time { get; }
+
         public SeriesItem (string itemType, string itemId, double time)
         {
-            this.itemType = itemType;
-            this.itemId = itemId;
-            this.time = time;
+            this.ItemType = itemType;
+            this.ItemId = itemId;
+            this.Time = time;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

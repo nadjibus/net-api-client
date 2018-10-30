@@ -17,18 +17,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteItem : Request
     {
-        private readonly string itemId;
         /// <summary>ID of the item to be deleted.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-    
+        public string ItemId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="itemId">ID of the item to be deleted.</param>
-        public DeleteItem (string itemId): base(HttpMethod.Delete, 1000)
+        public DeleteItem (string itemId): base(HttpMethod.Delete, 10000)
         {
-            this.itemId = itemId;
+            this.ItemId = itemId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

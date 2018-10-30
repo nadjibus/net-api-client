@@ -12,23 +12,16 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>GroupItem Binding</summary>
     public class GroupItem: RecombeeBinding {
-        private readonly string itemType;
         /// <summary>`item` iff the regular item from the catalog is to be inserted, `group` iff group is inserted as the item.</summary>
-        public string ItemType
-        {
-            get {return itemType;}
-        }
-        private readonly string itemId;
+        public string ItemType { get; }
+
         /// <summary>ID of the item iff `itemType` is `item`. ID of the group iff `itemType` is `group`.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-    
+        public string ItemId { get; }
+
         public GroupItem (string itemType, string itemId)
         {
-            this.itemType = itemType;
-            this.itemId = itemId;
+            this.ItemType = itemType;
+            this.ItemId = itemId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

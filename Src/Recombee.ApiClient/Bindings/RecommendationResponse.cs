@@ -12,23 +12,16 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>RecommendationResponse Binding</summary>
     public class RecommendationResponse: RecombeeBinding {
-        private readonly string requestId;
         /// <summary>Id of the recommendation request</summary>
-        public string RequestId
-        {
-            get {return requestId;}
-        }
-        private readonly Recommendation[] recomms;
+        public string RequestId { get; }
+
         /// <summary>Obtained recommendations</summary>
-        public Recommendation[] Recomms
-        {
-            get {return recomms;}
-        }
-    
+        public Recommendation[] Recomms { get; }
+
         public RecommendationResponse (string requestId, Recommendation[] recomms)
         {
-            this.requestId = requestId;
-            this.recomms = recomms;
+            this.RequestId = requestId;
+            this.Recomms = recomms;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

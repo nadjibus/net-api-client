@@ -5,53 +5,44 @@ using System.Net;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Recombee.ApiClient.ApiRequests;
 using Recombee.ApiClient.Bindings;
 
 namespace Recombee.ApiClient
 {
-    /// <summary>Client for sending requests to Recombee and getting replies</summary>
+    /// <summary>Client for sending requests to Recombee and getting replies, with Async support.</summary>
     public partial class RecombeeClient
     {
-        readonly string databaseId;
-        readonly byte[] secretTokenBytes;
+        private const string UserAgent = "recombee-.net-api-client/2.2.0";
 
-        readonly bool useHttpsAsDefault;
-
-        readonly string hostUri = "rapi.recombee.com";
-
-        readonly int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
-
-        HttpClient httpClient;
+        readonly string _databaseId;
+        readonly byte[] _secretTokenBytes;
+        readonly bool _useHttpsAsDefault;
+        private readonly string _hostUri = "rapi.recombee.com";
+        readonly int _batchMaxSize = 10000; //Maximal number of requests within one batch request
+        readonly HttpClient _httpClient;
 
 
         /// <summary>Initialize the client</summary>
         /// <param name="databaseId">ID of the database.</param>
         /// <param name="secretToken">Corresponding secret token.</param>
-        /// <param name="useHttpsAsDefault">If true, all requests are sent using HTTPS</param>
-        public RecombeeClient(string databaseId, string secretToken, bool useHttpsAsDefault = false)
+        /// <param name="useHttpsAsDefault">If true, all requests are sent using HTTPS.</param>
+        /// <param name="httpClient">If you want to use your own HttpClient instance, pass it here.</param>
+        public RecombeeClient(string databaseId, string secretToken, bool useHttpsAsDefault = false, HttpClient httpClient = null)
         {
-            this.databaseId = databaseId;
-            this.secretTokenBytes = Encoding.ASCII.GetBytes(secretToken);
-            this.useHttpsAsDefault = useHttpsAsDefault;
-            this.httpClient = createHttpClient();
-
-            var envHostUri = Environment.GetEnvironmentVariable("RAPI_URI");
-            if(envHostUri != null)
-                this.hostUri = envHostUri; 
+            _databaseId = databaseId;
+            _secretTokenBytes = Encoding.ASCII.GetBytes(secretToken);
+            _useHttpsAsDefault = useHttpsAsDefault;
+            _httpClient = httpClient ?? new HttpClient();
+            _hostUri = Environment.GetEnvironmentVariable("RAPI_URI") ?? _hostUri;
         }
 
-        private HttpClient createHttpClient()
+        public async Task<StringBinding> SendAsync(Request request)
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "recombee-.net-api-client/2.2.0");
-            return httpClient;
-        }
-
-        public StringBinding Send(Request request)
-        {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
@@ -60,27 +51,27 @@ namespace Recombee.ApiClient
             return new StringBinding(json);
         }
 
-        public IEnumerable<Item> Send(ListItems request)
+        public async Task<IEnumerable<Item>> SendAsync(ListItems request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
-        public IEnumerable<User> Send(ListUsers request)
+        public async Task<IEnumerable<User>> SendAsync(ListUsers request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
-        public IEnumerable<Recommendation> Send(UserBasedRecommendation request)
+        public async Task<IEnumerable<Recommendation>> Send(UserBasedRecommendation request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
-        public IEnumerable<Recommendation> Send(ItemBasedRecommendation request)
+        public async Task<IEnumerable<Recommendation>> Send(ItemBasedRecommendation request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
@@ -101,7 +92,7 @@ namespace Recombee.ApiClient
                 var strArray = JsonConvert.DeserializeObject<string[]>(json);
                 return strArray.Select(x => new Recommendation(x));
             }
-            catch(Newtonsoft.Json.JsonReaderException)
+            catch (JsonReaderException)
             {
                 //might have failed because it returned also the item properties
                 var valsArray = JsonConvert.DeserializeObject<Dictionary<string, object>[]>(json);
@@ -116,7 +107,7 @@ namespace Recombee.ApiClient
                 var strArray = JsonConvert.DeserializeObject<string[]>(json);
                 return strArray.Select(x => new Item(x));
             }
-            catch(Newtonsoft.Json.JsonReaderException)
+            catch (JsonReaderException)
             {
                 //might have failed because it returned also the item properties
                 var valsArray = JsonConvert.DeserializeObject<Dictionary<string, object>[]>(json);
@@ -131,7 +122,7 @@ namespace Recombee.ApiClient
                 var strArray = JsonConvert.DeserializeObject<string[]>(json);
                 return strArray.Select(x => new User(x));
             }
-            catch(Newtonsoft.Json.JsonReaderException)
+            catch (JsonReaderException)
             {
                 //might have failed because it returned also the item properties
                 var valsArray = JsonConvert.DeserializeObject<Dictionary<string, object>[]>(json);
@@ -139,9 +130,9 @@ namespace Recombee.ApiClient
             }
         }
 
-        public Item Send(GetItemValues request)
+        public async Task<Item> Send(GetItemValues request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
@@ -151,9 +142,9 @@ namespace Recombee.ApiClient
             return new Item(request.ItemId, vals);
         }
 
-        public User Send(GetUserValues request)
+        public async Task<User> Send(GetUserValues request)
         {
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             return ParseResponse(json, request);
         }
 
@@ -165,101 +156,101 @@ namespace Recombee.ApiClient
 
         private class BatchParseHelper
         {
-            public int code;
-            public Newtonsoft.Json.Linq.JRaw json;
-            
+            public int Code;
+            public Newtonsoft.Json.Linq.JRaw Json;
+
             public BatchParseHelper()
             {
-                code = 0;
-                json = null;
+                Code = 0;
+                Json = null;
             }
         }
-        public BatchResponse Send(Batch request)
+        public async Task<BatchResponse> SendAsync(Batch request)
         {
-            if(request.Requests.Count() > BATCH_MAX_SIZE )
-                return SendMultipartBatchRequest(request);
+            if (request.Requests.Count() > _batchMaxSize)
+                return await SendMultipartBatchRequestAsync(request).ConfigureAwait(false);
 
-            var json = SendRequest(request);
+            var json = await SendRequestAsync(request).ConfigureAwait(false);
             var partiallyParsed = JsonConvert.DeserializeObject<BatchParseHelper[]>(json);
 
-            var resps = request.Requests.Zip(partiallyParsed, (req, res) => (object) ParseOneBatchResponse(res.json.ToString(), res.code, req));
-            var statusCodes = partiallyParsed.Select(res => (HttpStatusCode) res.code);
+            var resps = request.Requests.Zip(partiallyParsed, (req, res) => ParseOneBatchResponse(res.Json.ToString(), res.Code, req));
+            var statusCodes = partiallyParsed.Select(res => (HttpStatusCode)res.Code);
             return new BatchResponse(resps, statusCodes);
         }
 
-        private BatchResponse SendMultipartBatchRequest(Batch request)
+        private async Task<BatchResponse> SendMultipartBatchRequestAsync(Batch request)
         {
-            var parts = request.Requests.Part(BATCH_MAX_SIZE);
-            var results = parts.Select(reqs => Send(new Batch(reqs)));
-            var responses = results.Select(br => br.Responses).SelectMany(x => x);
-            var statusCodes = results.Select(br => br.StatusCodes).SelectMany(x => x);
+            var parts = request.Requests.Part(_batchMaxSize);
+            var resultsTasks = parts.Select(requests => SendAsync(new Batch(requests))).ToList();
+            var responsesTasksResult = await Task.WhenAll(resultsTasks).ConfigureAwait(false);
+            var responses = responsesTasksResult.Select(br => br.Responses).SelectMany(x => x);
+            var statusCodes = responsesTasksResult.Select(br => br.StatusCodes).SelectMany(x => x);
             return new BatchResponse(responses, statusCodes);
         }
 
 
-        protected string SendRequest(Request request)
+        protected async Task<string> SendRequestAsync(Request request)
         {
             var uri = ProcessRequestUri(request);
             try
             {
-                HttpResponseMessage response = PerformHTTPRequest(uri, request);
-                var jsonStringTask = response.Content.ReadAsStringAsync();
-                jsonStringTask.Wait();
-                var jsonString = jsonStringTask.Result;
+                var response = await PerformHttpRequestAsync(uri, request).ConfigureAwait(false);
+                var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 CheckStatusCode(response.StatusCode, jsonString, request);
                 return jsonString;
             }
-            catch(AggregateException ae)
+            catch (AggregateException ae)
             {
-                ae.Handle((x) =>
+                ae.Handle(x =>
                 {
-                    if(x is System.Threading.Tasks.TaskCanceledException)
+                    if (x is TaskCanceledException)
                         throw new TimeoutException(request, x);
+
                     return false;
                 });
             }
-            throw new InvalidOperationException("Invalid state after sending a request."); //Should never happen
+
+            throw new InvalidOperationException("Invalid state after sending a request."); // Should never happen
         }
 
-        private void CheckStatusCode(System.Net.HttpStatusCode statusCode, string response, Request request)
+        private void CheckStatusCode(HttpStatusCode statusCode, string response, Request request)
         {
-            int code = (int) statusCode;
-            if(code>=200 && code <=299)
+            var code = (int)statusCode;
+
+            if (code >= 200 && code <= 299)
                 return;
-                
+
             throw new ResponseException(request, statusCode, response);
         }
 
 
-        private HttpResponseMessage PerformHTTPRequest(string uri, Request request)
+        private Task<HttpResponseMessage> PerformHttpRequestAsync(string uri, Request request)
         {
-            if (httpClient.Timeout != request.Timeout)
+            var httpRequest = new HttpRequestMessage(request.RequestHttpMethod, uri);
+
+            var ctsTimeout = new CancellationTokenSource();
+            var requestTimeoutInSeconds = request.Timeout.TotalSeconds;
+            ctsTimeout.CancelAfter(requestTimeoutInSeconds > 0 ? request.Timeout : _httpClient.Timeout);
+
+            if (httpRequest.Method == HttpMethod.Put)
             {
-                if (httpClient.Timeout != null)
-                    httpClient = createHttpClient();
-                httpClient.Timeout = request.Timeout;
+                httpRequest.Content = new StringContent("");
             }
-            
-            if (request.RequestHttpMehod == HttpMethod.Get)
+            else if (httpRequest.Method == HttpMethod.Post)
             {
-                return httpClient.GetAsync(uri).Result;
+                var bodyParams = JsonConvert.SerializeObject(request.BodyParameters());
+                httpRequest.Content = new StringContent(bodyParams, Encoding.UTF8, "application/json");
             }
-            else if (request.RequestHttpMehod == HttpMethod.Put)
+
+            httpRequest.Headers.Add("User-Agent", UserAgent);
+
+            try
             {
-                return httpClient.PutAsync(uri, new StringContent("")).Result;
+                return _httpClient.SendAsync(httpRequest, ctsTimeout.Token);
             }
-            else if (request.RequestHttpMehod == HttpMethod.Post)
+            catch (TaskCanceledException ex)
             {
-                string bodyParams = JsonConvert.SerializeObject(request.BodyParameters());
-                return httpClient.PostAsync(uri, new StringContent(bodyParams, Encoding.UTF8,"application/json")).Result;
-            }
-            else if (request.RequestHttpMehod == HttpMethod.Delete)
-            {
-                return httpClient.DeleteAsync(uri).Result;
-            }
-            else
-            {
-                throw new InvalidOperationException("Unknown method " + request.RequestHttpMehod.ToString());
+                throw new TimeoutException(request, ex);
             }
         }
 
@@ -275,34 +266,36 @@ namespace Recombee.ApiClient
         private string ProcessRequestUri(Request request)
         {
             var uriBuilder = new UriBuilder();
-            uriBuilder.Path = string.Format("/{0}{1}",databaseId,request.Path());
+
+            uriBuilder.Path = string.Format("/{0}{1}", _databaseId, request.Path());
             uriBuilder.Query = QueryParameters(request);
             AppendHmacParameters(uriBuilder);
-            uriBuilder.Scheme = (request.EnsureHttps || useHttpsAsDefault) ? "https" : "http";
-            uriBuilder.Host = hostUri;
+            uriBuilder.Scheme = request.EnsureHttps || _useHttpsAsDefault ? "https" : "http";
+            uriBuilder.Host = _hostUri;
+
             return uriBuilder.ToString();
         }
 
         private string QueryParameters(Request request)
-        {            
+        {
             var encodedQueryStringParams = request.QueryParameters().
-                Select (p => string.Format("{0}={1}", p.Key, WebUtility.UrlEncode(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", p.Value))));
+                Select(p => string.Format("{0}={1}", p.Key, WebUtility.UrlEncode(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", p.Value))));
             return string.Join("&", encodedQueryStringParams);
         }
 
-        private Int32 UnixTimestampNow() 
+        private int UnixTimestampNow()
         {
-            return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
         private void AppendHmacParameters(UriBuilder uriBuilder)
         {
-            uriBuilder.Query = StripLeadingQuestionMark(uriBuilder.Query) + (uriBuilder.Query.Length == 0 ? "" : "&") + string.Format("hmac_timestamp={0}",this.UnixTimestampNow());
-            using(var myhmacsha1 = new HMACSHA1(this.secretTokenBytes))
+            uriBuilder.Query = StripLeadingQuestionMark(uriBuilder.Query) + (uriBuilder.Query.Length == 0 ? "" : "&") + string.Format("hmac_timestamp={0}", UnixTimestampNow());
+            using (var myHmacSha1 = new HMACSHA1(_secretTokenBytes))
             {
                 var uriToBeSigned = uriBuilder.Path + uriBuilder.Query;
-                byte[] hmacBytes = myhmacsha1.ComputeHash(Encoding.ASCII.GetBytes(uriToBeSigned));
-                string hmacRes = BitConverter.ToString(hmacBytes).Replace("-","");
-                uriBuilder.Query = StripLeadingQuestionMark(uriBuilder.Query) + string.Format("&hmac_sign={0}",hmacRes);
+                var hmacBytes = myHmacSha1.ComputeHash(Encoding.ASCII.GetBytes(uriToBeSigned));
+                var hmacRes = BitConverter.ToString(hmacBytes).Replace("-", "");
+                uriBuilder.Query = StripLeadingQuestionMark(uriBuilder.Query) + string.Format("&hmac_sign={0}", hmacRes);
             }
         }
     }

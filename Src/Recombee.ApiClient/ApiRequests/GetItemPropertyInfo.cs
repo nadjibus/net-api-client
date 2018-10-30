@@ -15,18 +15,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class GetItemPropertyInfo : Request
     {
-        private readonly string propertyName;
         /// <summary>Name of the property about which the information is to be retrieved.</summary>
-        public string PropertyName
-        {
-            get {return propertyName;}
-        }
-    
+        public string PropertyName { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="propertyName">Name of the property about which the information is to be retrieved.</param>
         public GetItemPropertyInfo (string propertyName): base(HttpMethod.Get, 1000)
         {
-            this.propertyName = propertyName;
+            this.PropertyName = propertyName;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

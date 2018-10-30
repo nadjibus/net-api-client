@@ -14,18 +14,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>Creates new series in the database.</remarks>
     public class AddSeries : Request
     {
-        private readonly string seriesId;
         /// <summary>ID of the series to be created.</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-    
+        public string SeriesId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="seriesId">ID of the series to be created.</param>
-        public AddSeries (string seriesId): base(HttpMethod.Put, 1000)
+        public AddSeries (string seriesId): base(HttpMethod.Put, 10000)
         {
-            this.seriesId = seriesId;
+            this.SeriesId = seriesId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

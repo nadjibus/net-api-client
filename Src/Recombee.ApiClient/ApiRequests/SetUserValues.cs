@@ -9,13 +9,8 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>The properties (columns) must be previously created by Add user property(https://docs.recombee.com/api.html#add-user-property).</remarks>
     public class SetUserValues : SetValues
     {
-        private readonly string userId;
-
         /// <summary>ID of the user which will be modified.</summary> 
-        public string UserId
-        {
-            get {return userId;}
-        }
+        public string UserId { get; }
 
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user which will be modified.</param>
@@ -23,7 +18,7 @@ namespace Recombee.ApiClient.ApiRequests
         /// <param name="cascadeCreate">Sets whether the user should be created if not present in the database.</param>
         public SetUserValues (string userId, Dictionary<string, object>  values, bool? cascadeCreate = null): base(values, cascadeCreate)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

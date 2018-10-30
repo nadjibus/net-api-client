@@ -330,12 +330,11 @@ namespace Recombee.ApiClient.Util
 {
     public class HashCodeBuilder<T>
     {
-      private readonly T target;
-      private int hashCode = 17;
-     
-      public HashCodeBuilder(T target)
+      private readonly T _target;
+
+        public HashCodeBuilder(T target)
       {
-        this.target = target;
+        this._target = target;
       }
      
       public HashCodeBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> propertyOrField)
@@ -347,17 +346,11 @@ namespace Recombee.ApiClient.Util
         }
      
         var func = propertyOrField.Compile();
-        var value = func(target);
-        hashCode += 31 * hashCode + ((value == null) ? 0 : value.GetHashCode());
+        var value = func(_target);
+        HashCode += 31 * HashCode + ((value == null) ? 0 : value.GetHashCode());
         return this;
       }
      
-      public int HashCode
-      {
-        get
-        {
-          return hashCode;
-        }
-      }
+      public int HashCode { get; private set; } = 17;
     }
 }

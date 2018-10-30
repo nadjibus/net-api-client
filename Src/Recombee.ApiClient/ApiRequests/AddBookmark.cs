@@ -15,50 +15,34 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class AddBookmark : Request
     {
-        private readonly string userId;
         /// <summary>User who bookmarked the item</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Bookmarked item</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly DateTime? timestamp;
+        public string ItemId { get; }
+
         /// <summary>UTC timestamp of the bookmark as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
-        public DateTime? Timestamp
-        {
-            get {return timestamp;}
-        }
-        private readonly bool? cascadeCreate;
+        public DateTime? Timestamp { get; }
+
         /// <summary>Sets whether the given user/item should be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
-        private readonly string recommId;
+        public bool? CascadeCreate { get; }
+
         /// <summary>If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">User who bookmarked the item</param>
         /// <param name="itemId">Bookmarked item</param>
         /// <param name="timestamp">UTC timestamp of the bookmark as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</param>
         /// <param name="cascadeCreate">Sets whether the given user/item should be created if not present in the database.</param>
         /// <param name="recommId">If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.</param>
-        public AddBookmark (string userId, string itemId, DateTime? timestamp = null, bool? cascadeCreate = null, string recommId = null): base(HttpMethod.Post, 1000)
+        public AddBookmark (string userId, string itemId, DateTime? timestamp = null, bool? cascadeCreate = null, string recommId = null): base(HttpMethod.Post, 10000)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
-            this.cascadeCreate = cascadeCreate;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.Timestamp = timestamp;
+            this.CascadeCreate = cascadeCreate;
+            this.RecommId = recommId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

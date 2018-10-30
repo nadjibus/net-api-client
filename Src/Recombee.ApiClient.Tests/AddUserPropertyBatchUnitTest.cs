@@ -16,9 +16,9 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddUserProperty()
+        public async void TestAddUserProperty()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddUserProperty("number","int"),
                 new AddUserProperty("str","string"),
                 new AddUserProperty("prop","integer"),
@@ -26,7 +26,7 @@ namespace Recombee.ApiClient.Tests
                 new AddUserProperty("number2","int")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(400, (int)batchResponse.StatusCodes.ElementAt(2));

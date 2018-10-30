@@ -15,14 +15,10 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class AddItemProperty : Request
     {
-        private readonly string propertyName;
         /// <summary>Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
         /// </summary>
-        public string PropertyName
-        {
-            get {return propertyName;}
-        }
-        private readonly string type;
+        public string PropertyName { get; }
+
         /// <summary>Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
         /// * `int`- Signed integer number.
         /// * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
@@ -33,11 +29,8 @@ namespace Recombee.ApiClient.ApiRequests
         /// * `image` - URL of an image (`jpeg`, `png` or `gif`).
         /// * `imageList` - List of URLs that refer to images. 
         /// </summary>
-        public string Type
-        {
-            get {return type;}
-        }
-    
+        public string Type { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="propertyName">Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
         /// </param>
@@ -53,8 +46,8 @@ namespace Recombee.ApiClient.ApiRequests
         /// </param>
         public AddItemProperty (string propertyName, string type): base(HttpMethod.Put, 100000)
         {
-            this.propertyName = propertyName;
-            this.type = type;
+            this.PropertyName = propertyName;
+            this.Type = type;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

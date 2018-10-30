@@ -15,18 +15,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class AddUser : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user to be added.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-    
+        public string UserId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user to be added.</param>
-        public AddUser (string userId): base(HttpMethod.Put, 1000)
+        public AddUser (string userId): base(HttpMethod.Put, 10000)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

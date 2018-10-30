@@ -15,49 +15,27 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class AddCartAddition : Request
     {
-        private readonly string userId;
         /// <summary>User who added the item to the cart</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Item added to the cart</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly DateTime? timestamp;
+        public string ItemId { get; }
+
         /// <summary>UTC timestamp of the cart addition as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
-        public DateTime? Timestamp
-        {
-            get {return timestamp;}
-        }
-        private readonly bool? cascadeCreate;
+        public DateTime? Timestamp { get; }
+
         /// <summary>Sets whether the given user/item should be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
-        private readonly double? amount;
+        public bool? CascadeCreate { get; }
+
         /// <summary>Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.</summary>
-        public double? Amount
-        {
-            get {return amount;}
-        }
-        private readonly double? price;
+        public double? Amount { get; }
+
         /// <summary>Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.</summary>
-        public double? Price
-        {
-            get {return price;}
-        }
-        private readonly string recommId;
+        public double? Price { get; }
+
         /// <summary>If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">User who added the item to the cart</param>
         /// <param name="itemId">Item added to the cart</param>
@@ -66,15 +44,15 @@ namespace Recombee.ApiClient.ApiRequests
         /// <param name="amount">Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.</param>
         /// <param name="price">Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.</param>
         /// <param name="recommId">If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.</param>
-        public AddCartAddition (string userId, string itemId, DateTime? timestamp = null, bool? cascadeCreate = null, double? amount = null, double? price = null, string recommId = null): base(HttpMethod.Post, 1000)
+        public AddCartAddition (string userId, string itemId, DateTime? timestamp = null, bool? cascadeCreate = null, double? amount = null, double? price = null, string recommId = null): base(HttpMethod.Post, 10000)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
-            this.cascadeCreate = cascadeCreate;
-            this.amount = amount;
-            this.price = price;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.Timestamp = timestamp;
+            this.CascadeCreate = cascadeCreate;
+            this.Amount = amount;
+            this.Price = price;
+            this.RecommId = recommId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

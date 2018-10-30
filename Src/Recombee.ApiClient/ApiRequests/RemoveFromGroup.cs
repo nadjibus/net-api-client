@@ -14,34 +14,24 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>Removes an existing group item from the group.</remarks>
     public class RemoveFromGroup : Request
     {
-        private readonly string groupId;
         /// <summary>ID of the group from which a group item is to be removed.</summary>
-        public string GroupId
-        {
-            get {return groupId;}
-        }
-        private readonly string itemType;
+        public string GroupId { get; }
+
         /// <summary>Type of the item to be removed.</summary>
-        public string ItemType
-        {
-            get {return itemType;}
-        }
-        private readonly string itemId;
+        public string ItemType { get; }
+
         /// <summary>ID of the item iff `itemType` is `item`. ID of the group iff `itemType` is `group`.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-    
+        public string ItemId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="groupId">ID of the group from which a group item is to be removed.</param>
         /// <param name="itemType">Type of the item to be removed.</param>
         /// <param name="itemId">ID of the item iff `itemType` is `item`. ID of the group iff `itemType` is `group`.</param>
-        public RemoveFromGroup (string groupId, string itemType, string itemId): base(HttpMethod.Delete, 1000)
+        public RemoveFromGroup (string groupId, string itemType, string itemId): base(HttpMethod.Delete, 10000)
         {
-            this.groupId = groupId;
-            this.itemType = itemType;
-            this.itemId = itemId;
+            this.GroupId = groupId;
+            this.ItemType = itemType;
+            this.ItemId = itemId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

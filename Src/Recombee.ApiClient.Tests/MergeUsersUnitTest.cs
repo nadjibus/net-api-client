@@ -16,21 +16,21 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestMergeUsers()
+        public async void TestMergeUsers()
         {
             MergeUsers req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with existing users'
             req2 = new AddUser("target");
-            client.Send(req2);
+            await client.SendAsync(req2);
             req = new MergeUsers("target","entity_id");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'fails with nonexisting user'
             req = new MergeUsers("nonex_id","entity_id");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

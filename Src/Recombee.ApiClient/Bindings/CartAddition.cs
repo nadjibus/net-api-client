@@ -12,53 +12,38 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>CartAddition Binding</summary>
     public class CartAddition: RecombeeBinding {
-        private readonly string userId;
         /// <summary>User who added the item to the cart</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Item added to the cart</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
+        public string ItemId { get; }
+
         [JsonConverter(typeof(EpochJsonReader))]
-        private readonly DateTime? timestamp;
+        private readonly DateTime? _timestamp;
         /// <summary>UTC timestamp of the cart addition as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
         [JsonConverter(typeof(EpochJsonReader))]
         public DateTime? Timestamp
         {
-            get {return timestamp;}
+            get {return _timestamp;}
         }
-        private readonly double? amount;
+
         /// <summary>Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.</summary>
-        public double? Amount
-        {
-            get {return amount;}
-        }
-        private readonly double? price;
+        public double? Amount { get; }
+
         /// <summary>Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.</summary>
-        public double? Price
-        {
-            get {return price;}
-        }
-        private readonly string recommId;
+        public double? Price { get; }
+
         /// <summary>If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         public CartAddition (string userId, string itemId, DateTime? timestamp = null, double? amount = null, double? price = null, string recommId = null)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
-            this.amount = amount;
-            this.price = price;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this._timestamp = timestamp;
+            this.Amount = amount;
+            this.Price = price;
+            this.RecommId = recommId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

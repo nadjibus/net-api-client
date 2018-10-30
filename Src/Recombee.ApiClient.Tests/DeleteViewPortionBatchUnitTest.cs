@@ -16,14 +16,14 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteViewPortion()
+        public async void TestDeleteViewPortion()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new DeleteViewPortion("user","item"),
                 new DeleteViewPortion("user","item")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(1));
         }

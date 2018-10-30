@@ -16,15 +16,15 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListItemPurchases()
+        public async void TestListItemPurchases()
         {
             ListItemPurchases req;
             Request req2;
             IEnumerable<Purchase> resp;
             // it 'lists interactions'
             req = new ListItemPurchases("item");
-            resp = client.Send(req);
-            Assert.Equal(1, resp.Count());
+            resp = await client.SendAsync(req);
+            Assert.Single(resp);
             Assert.Equal ("item",resp.ElementAt(0).ItemId);
             Assert.Equal ("user",resp.ElementAt(0).UserId);
         }

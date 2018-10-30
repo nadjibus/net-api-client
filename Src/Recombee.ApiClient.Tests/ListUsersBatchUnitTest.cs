@@ -16,18 +16,18 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListUsers()
+        public async void TestListUsers()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new ListUsers(),
                 new ListUsers()
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal (new User[]{new User("entity_id")},((IEnumerable<User>) batchResponse[0]));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
-            Assert.Equal(1, ((IEnumerable<User>) batchResponse[1]).Count());
+            Assert.Single(((IEnumerable<User>) batchResponse[1]));
         }
     }
 }

@@ -16,34 +16,24 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class MergeUsers : Request
     {
-        private readonly string targetUserId;
         /// <summary>ID of the targer user.</summary>
-        public string TargetUserId
-        {
-            get {return targetUserId;}
-        }
-        private readonly string sourceUserId;
+        public string TargetUserId { get; }
+
         /// <summary>ID of the source user.</summary>
-        public string SourceUserId
-        {
-            get {return sourceUserId;}
-        }
-        private readonly bool? cascadeCreate;
+        public string SourceUserId { get; }
+
         /// <summary>Sets whether the user *targetUserId* should be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
-    
+        public bool? CascadeCreate { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="targetUserId">ID of the targer user.</param>
         /// <param name="sourceUserId">ID of the source user.</param>
         /// <param name="cascadeCreate">Sets whether the user *targetUserId* should be created if not present in the database.</param>
         public MergeUsers (string targetUserId, string sourceUserId, bool? cascadeCreate = null): base(HttpMethod.Put, 10000)
         {
-            this.targetUserId = targetUserId;
-            this.sourceUserId = sourceUserId;
-            this.cascadeCreate = cascadeCreate;
+            this.TargetUserId = targetUserId;
+            this.SourceUserId = sourceUserId;
+            this.CascadeCreate = cascadeCreate;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

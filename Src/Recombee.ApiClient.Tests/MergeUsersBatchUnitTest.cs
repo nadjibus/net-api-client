@@ -16,15 +16,15 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestMergeUsers()
+        public async void TestMergeUsers()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddUser("target"),
                 new MergeUsers("target","entity_id"),
                 new MergeUsers("nonex_id","entity_id")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(2));

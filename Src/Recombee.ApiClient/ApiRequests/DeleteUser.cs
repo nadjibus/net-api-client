@@ -16,18 +16,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteUser : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user to be added.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-    
+        public string UserId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user to be added.</param>
-        public DeleteUser (string userId): base(HttpMethod.Delete, 1000)
+        public DeleteUser (string userId): base(HttpMethod.Delete, 10000)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

@@ -15,34 +15,24 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteRating : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user who rated the item.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>ID of the item which was rated.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly DateTime? timestamp;
+        public string ItemId { get; }
+
         /// <summary>Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with given `userId` and `itemId` are deleted.</summary>
-        public DateTime? Timestamp
-        {
-            get {return timestamp;}
-        }
-    
+        public DateTime? Timestamp { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user who rated the item.</param>
         /// <param name="itemId">ID of the item which was rated.</param>
         /// <param name="timestamp">Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with given `userId` and `itemId` are deleted.</param>
-        public DeleteRating (string userId, string itemId, DateTime? timestamp = null): base(HttpMethod.Delete, 1000)
+        public DeleteRating (string userId, string itemId, DateTime? timestamp = null): base(HttpMethod.Delete, 10000)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.Timestamp = timestamp;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

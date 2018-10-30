@@ -12,16 +12,12 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>Series Binding</summary>
     public class Series: Entity {
-        private readonly string seriesId;
         /// <summary>Id of the series</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-    
+        public string SeriesId { get; }
+
         public Series (string seriesId, Dictionary<string, object> values = null): base(values)
         {
-            this.seriesId = seriesId;
+            this.SeriesId = seriesId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

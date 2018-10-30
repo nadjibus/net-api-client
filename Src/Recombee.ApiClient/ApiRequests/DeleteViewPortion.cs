@@ -15,34 +15,24 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteViewPortion : Request
     {
-        private readonly string userId;
         /// <summary>ID of the user who rated the item.</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>ID of the item which was rated.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly string sessionId;
+        public string ItemId { get; }
+
         /// <summary>Identifier of a session.</summary>
-        public string SessionId
-        {
-            get {return sessionId;}
-        }
-    
+        public string SessionId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">ID of the user who rated the item.</param>
         /// <param name="itemId">ID of the item which was rated.</param>
         /// <param name="sessionId">Identifier of a session.</param>
-        public DeleteViewPortion (string userId, string itemId, string sessionId = null): base(HttpMethod.Delete, 1000)
+        public DeleteViewPortion (string userId, string itemId, string sessionId = null): base(HttpMethod.Delete, 10000)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.sessionId = sessionId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.SessionId = sessionId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

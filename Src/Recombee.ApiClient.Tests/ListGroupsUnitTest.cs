@@ -16,14 +16,14 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListGroups()
+        public async void TestListGroups()
         {
             ListGroups req;
             Request req2;
             IEnumerable<Group> resp;
             // it 'lists entities'
             req = new ListGroups();
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             Assert.Equal (new Group[]{new Group("entity_id")},resp);
         }
     }

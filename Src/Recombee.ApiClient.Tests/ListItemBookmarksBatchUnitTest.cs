@@ -16,15 +16,15 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListItemBookmarks()
+        public async void TestListItemBookmarks()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new ListItemBookmarks("item")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
-            Assert.Equal(1, ((IEnumerable<Bookmark>) batchResponse[0]).Count());
+            Assert.Single(((IEnumerable<Bookmark>) batchResponse[0]));
             Assert.Equal ("item",((IEnumerable<Bookmark>) batchResponse[0]).ElementAt(0).ItemId);
             Assert.Equal ("user",((IEnumerable<Bookmark>) batchResponse[0]).ElementAt(0).UserId);
         }

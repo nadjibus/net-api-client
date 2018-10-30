@@ -16,18 +16,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class DeleteSeries : Request
     {
-        private readonly string seriesId;
         /// <summary>ID of the series to be deleted.</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-    
+        public string SeriesId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="seriesId">ID of the series to be deleted.</param>
-        public DeleteSeries (string seriesId): base(HttpMethod.Delete, 1000)
+        public DeleteSeries (string seriesId): base(HttpMethod.Delete, 10000)
         {
-            this.seriesId = seriesId;
+            this.SeriesId = seriesId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

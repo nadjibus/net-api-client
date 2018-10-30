@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
@@ -13,15 +13,21 @@
 
   <PropertyGroup>
     <Title>Recombee API Client</Title>
-    <Authors>Ondrej Fiedler;Recombee</Authors>
+    <Authors>Ondrej Fiedler;Recombee;Nadjib A. Bait</Authors>
     <Company>Recombee</Company>
     <AssemblyTitle>Recombee API Client</AssemblyTitle>
-    <Description>.Net client (SDK) for easy use of the Recombee recommendation API</Description>
+    <Description>Enhanced Recombee SDK API client with Async methods, the possibility of supplying your own HttpClient instance. and bug fixes.</Description>
     <Copyright>Recombee</Copyright>
     <PackageTags>recombee;recommendation engine;recommender engine;machine learning;API;SDK</PackageTags>
-    <PackageIconUrl>http://raw.github.com/Recombee/net-api-client/master/icon.png</PackageIconUrl>
-    <PackageProjectUrl>http://github.com/Recombee/net-api-client</PackageProjectUrl>
+    <PackageIconUrl>http://raw.github.com/nadjibus/net-api-client/master/icon.png</PackageIconUrl>
+    <PackageProjectUrl>http://github.com/nadjibus/net-api-client</PackageProjectUrl>
     <PackageLicenseUrl>http://raw.github.com/Recombee/net-api-client/master/LICENSE.txt</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>AyncRecombeeApiClient</PackageId>
+    <PackageReleaseNotes>- Async methods
+- You can supply your own HttpClient
+- Removed .NET Core 1.1/2.0 targets (not needed since it targets .NET Standard)
+- Bug fixes (the original SDK created a new HttpClient instance for each request due to a bug...)</PackageReleaseNotes>
   </PropertyGroup>
 </Project>

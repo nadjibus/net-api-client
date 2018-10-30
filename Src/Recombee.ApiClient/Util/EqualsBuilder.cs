@@ -330,47 +330,47 @@ namespace Recombee.ApiClient.Util
 {
     public class EqualsBuilder<T>
     {
-      private readonly T left;
-      private readonly object right;
-      private bool areEqual = true;
+      private readonly T _left;
+      private readonly object _right;
+      private bool _areEqual = true;
      
       public EqualsBuilder(T left, object right) {
-        this.left = left;
-        this.right = right;
+        this._left = left;
+        this._right = right;
      
         if (ReferenceEquals(left, right))
         {
-          areEqual = true;
+          _areEqual = true;
           return;
         }
      
         if (ReferenceEquals(left, null))
         {
-          areEqual = false;
+          _areEqual = false;
           return;
         }
      
         if (ReferenceEquals(right, null))
         {
-          areEqual = false;
+          _areEqual = false;
           return;
         }
      
         if (left.GetType() != right.GetType())
         {
-          areEqual = false;
+          _areEqual = false;
           return;
         }
       }
      
       public EqualsBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> propertyOrField)
       {
-        if (!areEqual)
+        if (!_areEqual)
         {
           return this;
         }
      
-        if (left == null || right == null)
+        if (_left == null || _right == null)
         {
           return this;
         }
@@ -382,34 +382,34 @@ namespace Recombee.ApiClient.Util
         }
      
         Func<T, TProperty> func = propertyOrField.Compile();
-        TProperty leftValue = func(left);
-        TProperty rightValue = func((T)right);
+        TProperty leftValue = func(_left);
+        TProperty rightValue = func((T)_right);
      
         if (leftValue == null && rightValue == null)
         {
-          areEqual &= true;
+          _areEqual &= true;
           return this;
         }
      
         if (leftValue != null && rightValue == null)
         {
-          areEqual &= false;
+          _areEqual &= false;
           return this;
         }
      
         if (leftValue == null && rightValue != null)
         {
-          areEqual &= false;
+          _areEqual &= false;
           return this;
         }
      
-        areEqual &= leftValue.Equals(rightValue);
+        _areEqual &= leftValue.Equals(rightValue);
         return this;
       }
      
       public bool Equals()
       {
-        return areEqual;
+        return _areEqual;
       }
     }
 }

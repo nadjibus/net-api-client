@@ -16,18 +16,18 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteCartAddition()
+        public async void TestDeleteCartAddition()
         {
             DeleteCartAddition req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with existing entity id'
             req = new DeleteCartAddition("user","item",timestamp: UnixTimeStampToDateTime(0));
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             req = new DeleteCartAddition("user","item");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

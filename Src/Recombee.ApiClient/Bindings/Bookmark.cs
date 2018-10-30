@@ -12,39 +12,30 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>Bookmark Binding</summary>
     public class Bookmark: RecombeeBinding {
-        private readonly string userId;
         /// <summary>User who bookmarked the item</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Bookmarked item</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
+        public string ItemId { get; }
+
         [JsonConverter(typeof(EpochJsonReader))]
-        private readonly DateTime? timestamp;
+        private readonly DateTime? _timestamp;
         /// <summary>UTC timestamp of the bookmark as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
         [JsonConverter(typeof(EpochJsonReader))]
         public DateTime? Timestamp
         {
-            get {return timestamp;}
+            get {return _timestamp;}
         }
-        private readonly string recommId;
+
         /// <summary>If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         public Bookmark (string userId, string itemId, DateTime? timestamp = null, string recommId = null)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.timestamp = timestamp;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this._timestamp = timestamp;
+            this.RecommId = recommId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

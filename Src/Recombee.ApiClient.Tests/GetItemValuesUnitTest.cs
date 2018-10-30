@@ -11,10 +11,10 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestGetItemValues()
+        public async void TestGetItemValues()
         {
             GetItemValues req = new GetItemValues("entity_id");
-            Item resp = client.Send(req);
+            Item resp = await client.SendAsync(req);
             Assert.Equal ((long)42, (long)resp.Values["int_property"]);
             Assert.Equal ("hello",resp.Values["str_property"]);
         }

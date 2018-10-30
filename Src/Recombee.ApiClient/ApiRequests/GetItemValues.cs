@@ -15,20 +15,16 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class GetItemValues : Request
     {
-        private readonly string itemId;
         /// <summary>ID of the item properties of which are to be obtained.
         /// </summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-    
+        public string ItemId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="itemId">ID of the item properties of which are to be obtained.
         /// </param>
         public GetItemValues (string itemId): base(HttpMethod.Get, 1000)
         {
-            this.itemId = itemId;
+            this.ItemId = itemId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

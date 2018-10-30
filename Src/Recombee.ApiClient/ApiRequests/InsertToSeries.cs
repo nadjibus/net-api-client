@@ -15,50 +15,34 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class InsertToSeries : Request
     {
-        private readonly string seriesId;
         /// <summary>ID of the series to be inserted into.</summary>
-        public string SeriesId
-        {
-            get {return seriesId;}
-        }
-        private readonly string itemType;
+        public string SeriesId { get; }
+
         /// <summary>`item` iff the regular item from the catalog is to be inserted, `series` iff series is inserted as the item.</summary>
-        public string ItemType
-        {
-            get {return itemType;}
-        }
-        private readonly string itemId;
+        public string ItemType { get; }
+
         /// <summary>ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly double time;
+        public string ItemId { get; }
+
         /// <summary>Time index used for sorting items in the series. According to time, items are sorted within series in ascending order. In the example of TV show episodes, the episode number is a natural choice to be passed as time.</summary>
-        public double Time
-        {
-            get {return time;}
-        }
-        private readonly bool? cascadeCreate;
+        public double Time { get; }
+
         /// <summary>Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
-    
+        public bool? CascadeCreate { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="seriesId">ID of the series to be inserted into.</param>
         /// <param name="itemType">`item` iff the regular item from the catalog is to be inserted, `series` iff series is inserted as the item.</param>
         /// <param name="itemId">ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.</param>
         /// <param name="time">Time index used for sorting items in the series. According to time, items are sorted within series in ascending order. In the example of TV show episodes, the episode number is a natural choice to be passed as time.</param>
         /// <param name="cascadeCreate">Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.</param>
-        public InsertToSeries (string seriesId, string itemType, string itemId, double time, bool? cascadeCreate = null): base(HttpMethod.Post, 1000)
+        public InsertToSeries (string seriesId, string itemType, string itemId, double time, bool? cascadeCreate = null): base(HttpMethod.Post, 10000)
         {
-            this.seriesId = seriesId;
-            this.itemType = itemType;
-            this.itemId = itemId;
-            this.time = time;
-            this.cascadeCreate = cascadeCreate;
+            this.SeriesId = seriesId;
+            this.ItemType = itemType;
+            this.ItemId = itemId;
+            this.Time = time;
+            this.CascadeCreate = cascadeCreate;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

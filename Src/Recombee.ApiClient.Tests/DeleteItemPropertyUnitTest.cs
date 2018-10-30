@@ -16,17 +16,17 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestDeleteItemProperty()
+        public async void TestDeleteItemProperty()
         {
             DeleteItemProperty req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with existing property'
             req = new DeleteItemProperty("int_property");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -37,7 +37,7 @@ namespace Recombee.ApiClient.Tests
             req = new DeleteItemProperty("$$$not_valid$$$");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -48,7 +48,7 @@ namespace Recombee.ApiClient.Tests
             req = new DeleteItemProperty("not_existing");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

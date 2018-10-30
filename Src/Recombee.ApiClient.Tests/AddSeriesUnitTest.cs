@@ -16,19 +16,19 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddSeries()
+        public async void TestAddSeries()
         {
             AddSeries req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with valid entity id'
             req = new AddSeries("valid_id");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'fails with invalid entity id'
             req = new AddSeries("$$$not_valid$$$");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -37,10 +37,10 @@ namespace Recombee.ApiClient.Tests
             }
             // it 'really stores entity to the system'
             req = new AddSeries("valid_id2");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

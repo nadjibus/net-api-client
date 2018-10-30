@@ -1,14 +1,15 @@
 using Recombee.ApiClient.ApiRequests;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace Recombee.ApiClient.Tests
 {
-    public class InteractionsUnitTest: RecombeeUnitTest
-    {        
+    public class InteractionsUnitTest : RecombeeUnitTest
+    {
         public InteractionsUnitTest()
-        {                
-                Batch requests = new Batch(new Request[]{
+        {
+            Batch requests = new Batch(new Request[]{
                     new AddUser("user"),
                     new AddItem("item"),
                     new AddDetailView("user", "item", timestamp: UnixTimeStampToDateTime(0)),
@@ -19,7 +20,9 @@ namespace Recombee.ApiClient.Tests
                     new SetViewPortion("user", "item", 1, timestamp: UnixTimeStampToDateTime(0))
                 });
 
-                client.Send(requests);
+            client.SendAsync(requests).Wait();
+
+            Task.Delay(10000).Wait();
         }
     }
 }

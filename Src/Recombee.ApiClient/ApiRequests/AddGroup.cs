@@ -14,18 +14,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>Creates new group in the database.</remarks>
     public class AddGroup : Request
     {
-        private readonly string groupId;
         /// <summary>ID of the group to be created.</summary>
-        public string GroupId
-        {
-            get {return groupId;}
-        }
-    
+        public string GroupId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="groupId">ID of the group to be created.</param>
-        public AddGroup (string groupId): base(HttpMethod.Put, 1000)
+        public AddGroup (string groupId): base(HttpMethod.Put, 10000)
         {
-            this.groupId = groupId;
+            this.GroupId = groupId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

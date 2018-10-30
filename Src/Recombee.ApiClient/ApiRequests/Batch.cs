@@ -17,32 +17,23 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class Batch: Request
     {
-        private readonly IEnumerable<Request> requests;
-
         ///<summary>JSON array containing the requests.</summary>
-        public IEnumerable<Request> Requests
-        {
-            get {return requests;}
-        }
-        private readonly bool? distinctRecomms;
+        public IEnumerable<Request> Requests { get; }
 
         /// <summary>Makes all the recommended items for a certain user distinct among multiple recommendation requests in the batch.</summary>
-        public bool? DistinctRecomms
-        {
-            get {return distinctRecomms;}
-        }
-    
+        public bool? DistinctRecomms { get; }
+
 
         /// <summary>Construct the request</summary>
         /// <param name="requests">IEnumerable containing the requests.</param>
         /// <param name="distinctRecomms">Makes all the recommended items for a certain user distinct among multiple recommendation requests in the batch.</param>
-        public Batch (IEnumerable<Request> requests, bool? distinctRecomms = null): base(HttpMethod.Post, sumTimeouts(requests), true)
+        public Batch (IEnumerable<Request> requests, bool? distinctRecomms = null): base(HttpMethod.Post, SumTimeouts(requests), true)
         {
-            this.requests = requests;
-            this.distinctRecomms = distinctRecomms;
+            this.Requests = requests;
+            this.DistinctRecomms = distinctRecomms;
         }
 
-        private static int sumTimeouts(IEnumerable<Request> requests)
+        private static int SumTimeouts(IEnumerable<Request> requests)
         {
             return requests.Select(x => (int) x.Timeout.TotalMilliseconds).Sum();
         }
@@ -64,7 +55,7 @@ namespace Recombee.ApiClient.ApiRequests
         /// <returns>Dictionary containing  values of body parameters (name of parameter: value of the parameter)</returns>
         public override Dictionary<string, object> BodyParameters()
         {
-            var requestsDicts = requests.Select(r => requestToBatchDictionary(r));
+            var requestsDicts = Requests.Select(r => RequestToBatchDictionary(r));
             var result = new Dictionary<string, object>()
             {
                 {"requests", requestsDicts}
@@ -75,12 +66,12 @@ namespace Recombee.ApiClient.ApiRequests
         }
 
 
-        private Dictionary<string, object> requestToBatchDictionary(Request req)
+        private Dictionary<string, object> RequestToBatchDictionary(Request req)
         {
             var bd = new Dictionary<string, object>()
             {
                 {"path", req.Path()},
-                {"method", req.RequestHttpMehod.ToString()}
+                {"method", req.RequestHttpMethod.ToString()}
             };
             var paramsDict = req.QueryParameters(); 
             req.BodyParameters().ToList().ForEach(x => paramsDict.Add(x.Key, x.Value));

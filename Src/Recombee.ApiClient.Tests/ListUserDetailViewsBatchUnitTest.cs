@@ -16,15 +16,15 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListUserDetailViews()
+        public async void TestListUserDetailViews()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new ListUserDetailViews("user")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
-            Assert.Equal(1, ((IEnumerable<DetailView>) batchResponse[0]).Count());
+            Assert.Single(((IEnumerable<DetailView>) batchResponse[0]));
             Assert.Equal ("item",((IEnumerable<DetailView>) batchResponse[0]).ElementAt(0).ItemId);
             Assert.Equal ("user",((IEnumerable<DetailView>) batchResponse[0]).ElementAt(0).UserId);
         }

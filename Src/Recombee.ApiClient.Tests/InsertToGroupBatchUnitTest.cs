@@ -16,9 +16,9 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestInsertToGroup()
+        public async void TestInsertToGroup()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new AddItem("new_item"),
                 new InsertToGroup("entity_id","item","new_item"),
                 new InsertToGroup("new_set","item","new_item2",cascadeCreate: true),
@@ -27,7 +27,7 @@ namespace Recombee.ApiClient.Tests
                 new InsertToGroup("entity_id","item","new_item3")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(201, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(2));

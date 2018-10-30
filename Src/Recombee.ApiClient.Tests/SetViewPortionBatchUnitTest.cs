@@ -16,9 +16,9 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestSetViewPortion()
+        public async void TestSetViewPortion()
         {
-            Request[] requests = new Request[] {
+            Request[] requests = {
                 new SetViewPortion("u_id","i_id",1,cascadeCreate: true),
                 new SetViewPortion("entity_id","entity_id",0),
                 new SetViewPortion("entity_id","nonex_id",1),
@@ -28,7 +28,7 @@ namespace Recombee.ApiClient.Tests
                 new SetViewPortion("entity_id","entity_id",0.7,sessionId: "a****")
             };
 
-            BatchResponse batchResponse = client.Send(new Batch(requests));
+            BatchResponse batchResponse = await client.SendAsync(new Batch(requests));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(0));
             Assert.Equal(200, (int)batchResponse.StatusCodes.ElementAt(1));
             Assert.Equal(404, (int)batchResponse.StatusCodes.ElementAt(2));

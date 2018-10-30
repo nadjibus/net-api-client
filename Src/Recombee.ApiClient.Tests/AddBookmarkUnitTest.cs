@@ -16,25 +16,25 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestAddBookmark()
+        public async void TestAddBookmark()
         {
             AddBookmark req;
             Request req2;
             RecombeeBinding resp;
             // it 'does not fail with cascadeCreate'
             req = new AddBookmark("u_id","i_id",cascadeCreate: true);
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'does not fail with existing item and user'
             req = new AddBookmark("entity_id","entity_id");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'does not fail with valid timestamp'
             req = new AddBookmark("entity_id","entity_id",timestamp: ParseDateTime("2013-10-29T09:38:41.341Z"));
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             // it 'fails with nonexisting item id'
             req = new AddBookmark("entity_id","nonex_id");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -45,7 +45,7 @@ namespace Recombee.ApiClient.Tests
             req = new AddBookmark("nonex_id","entity_id");
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -56,7 +56,7 @@ namespace Recombee.ApiClient.Tests
             req = new AddBookmark("entity_id","entity_id",timestamp: UnixTimeStampToDateTime(-15));
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)
@@ -65,10 +65,10 @@ namespace Recombee.ApiClient.Tests
             }
             // it 'really stores interaction to the system'
             req = new AddBookmark("u_id2","i_id2",cascadeCreate: true,timestamp: UnixTimeStampToDateTime(5));
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             try
             {
-                client.Send(req);
+                await client.SendAsync(req);
                 Assert.True(false,"No exception thrown");
             }
             catch (ResponseException ex)

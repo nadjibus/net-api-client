@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recombee.ApiClient", "Recombee.ApiClient\Recombee.ApiClient.csproj", "{14B8DC37-1A42-4096-B3AE-494190EB21CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recombee.ApiClient.Tests", "Recombee.ApiClient.Tests\Recombee.ApiClient.Tests.csproj", "{E4E9FDFC-F190-4194-8325-14D5F44C9819}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14B8DC37-1A42-4096-B3AE-494190EB21CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B8DC37-1A42-4096-B3AE-494190EB21CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B8DC37-1A42-4096-B3AE-494190EB21CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B8DC37-1A42-4096-B3AE-494190EB21CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E9FDFC-F190-4194-8325-14D5F44C9819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E9FDFC-F190-4194-8325-14D5F44C9819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E9FDFC-F190-4194-8325-14D5F44C9819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E9FDFC-F190-4194-8325-14D5F44C9819}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {419EE096-6E92-4E8C-88B6-1D7FD341F9B0}
+	EndGlobalSection
+EndGlobal

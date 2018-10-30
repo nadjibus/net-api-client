@@ -14,18 +14,14 @@ namespace Recombee.ApiClient.ApiRequests
     /// <remarks>List all the items present in the given group.</remarks>
     public class ListGroupItems : Request
     {
-        private readonly string groupId;
         /// <summary>ID of the group items of which are to be listed.</summary>
-        public string GroupId
-        {
-            get {return groupId;}
-        }
-    
+        public string GroupId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="groupId">ID of the group items of which are to be listed.</param>
         public ListGroupItems (string groupId): base(HttpMethod.Get, 100000)
         {
-            this.groupId = groupId;
+            this.GroupId = groupId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>

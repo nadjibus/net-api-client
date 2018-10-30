@@ -16,19 +16,19 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestListUsers()
+        public async void TestListUsers()
         {
             ListUsers req;
             Request req2;
             IEnumerable<User> resp;
             // it 'lists entities'
             req = new ListUsers();
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             Assert.Equal (new User[]{new User("entity_id")},resp);
             // it 'return properties'
             req = new ListUsers();
-            resp = client.Send(req);
-            Assert.Equal(1, resp.Count());
+            resp = await client.SendAsync(req);
+            Assert.Single(resp);
         }
     }
 }

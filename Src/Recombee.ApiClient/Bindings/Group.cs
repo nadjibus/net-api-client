@@ -12,16 +12,12 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>Group Binding</summary>
     public class Group: Entity {
-        private readonly string groupId;
         /// <summary>Id of the group</summary>
-        public string GroupId
-        {
-            get {return groupId;}
-        }
-    
+        public string GroupId { get; }
+
         public Group (string groupId, Dictionary<string, object> values = null): base(values)
         {
-            this.groupId = groupId;
+            this.GroupId = groupId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

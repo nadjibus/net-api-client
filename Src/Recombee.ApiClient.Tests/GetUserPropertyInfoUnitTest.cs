@@ -16,17 +16,17 @@ namespace Recombee.ApiClient.Tests
     {
 
         [Fact]
-        public void TestGetUserPropertyInfo()
+        public async void TestGetUserPropertyInfo()
         {
             GetUserPropertyInfo req;
             Request req2;
             PropertyInfo resp;
             // it 'does not fail with existing properties'
             req = new GetUserPropertyInfo("int_property");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             Assert.Equal ("int",resp.Type);
             req = new GetUserPropertyInfo("str_property");
-            resp = client.Send(req);
+            resp = await client.SendAsync(req);
             Assert.Equal ("string",resp.Type);
         }
     }

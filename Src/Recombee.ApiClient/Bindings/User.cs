@@ -12,16 +12,12 @@ namespace Recombee.ApiClient.Bindings
 {
     /// <summary>User Binding</summary>
     public class User: Entity {
-        private readonly string userId;
         /// <summary>Id of the user</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-    
+        public string UserId { get; }
+
         public User (string userId, Dictionary<string, object> values = null): base(values)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
     
         /// <summary>Determines whether the specified object is equal to the current object</summary>

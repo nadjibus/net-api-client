@@ -16,49 +16,27 @@ namespace Recombee.ApiClient.ApiRequests
     /// </remarks>
     public class SetViewPortion : Request
     {
-        private readonly string userId;
         /// <summary>User who viewed a portion of the item</summary>
-        public string UserId
-        {
-            get {return userId;}
-        }
-        private readonly string itemId;
+        public string UserId { get; }
+
         /// <summary>Viewed item</summary>
-        public string ItemId
-        {
-            get {return itemId;}
-        }
-        private readonly double portion;
+        public string ItemId { get; }
+
         /// <summary>Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ). It should be the really viewed part of the item, no matter seeking, so for example if the user seeked immediately to half of the item and then viewed 10% of the item, the `portion` should still be `0.1`.</summary>
-        public double Portion
-        {
-            get {return portion;}
-        }
-        private readonly string sessionId;
+        public double Portion { get; }
+
         /// <summary>ID of session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc. depending on language).</summary>
-        public string SessionId
-        {
-            get {return sessionId;}
-        }
-        private readonly DateTime? timestamp;
+        public string SessionId { get; }
+
         /// <summary>UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</summary>
-        public DateTime? Timestamp
-        {
-            get {return timestamp;}
-        }
-        private readonly bool? cascadeCreate;
+        public DateTime? Timestamp { get; }
+
         /// <summary>Sets whether the given user/item should be created if not present in the database.</summary>
-        public bool? CascadeCreate
-        {
-            get {return cascadeCreate;}
-        }
-        private readonly string recommId;
+        public bool? CascadeCreate { get; }
+
         /// <summary>If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.</summary>
-        public string RecommId
-        {
-            get {return recommId;}
-        }
-    
+        public string RecommId { get; }
+
         /// <summary>Construct the request</summary>
         /// <param name="userId">User who viewed a portion of the item</param>
         /// <param name="itemId">Viewed item</param>
@@ -67,15 +45,15 @@ namespace Recombee.ApiClient.ApiRequests
         /// <param name="timestamp">UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.</param>
         /// <param name="cascadeCreate">Sets whether the given user/item should be created if not present in the database.</param>
         /// <param name="recommId">If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.</param>
-        public SetViewPortion (string userId, string itemId, double portion, string sessionId = null, DateTime? timestamp = null, bool? cascadeCreate = null, string recommId = null): base(HttpMethod.Post, 1000)
+        public SetViewPortion (string userId, string itemId, double portion, string sessionId = null, DateTime? timestamp = null, bool? cascadeCreate = null, string recommId = null): base(HttpMethod.Post, 10000)
         {
-            this.userId = userId;
-            this.itemId = itemId;
-            this.portion = portion;
-            this.sessionId = sessionId;
-            this.timestamp = timestamp;
-            this.cascadeCreate = cascadeCreate;
-            this.recommId = recommId;
+            this.UserId = userId;
+            this.ItemId = itemId;
+            this.Portion = portion;
+            this.SessionId = sessionId;
+            this.Timestamp = timestamp;
+            this.CascadeCreate = cascadeCreate;
+            this.RecommId = recommId;
         }
     
         /// <returns>URI to the endpoint including path parameters</returns>
