@@ -1,4 +1,4 @@
-# Recombee API Client (with Async, because we're no more in 1998)
+# Recombee API Client (with Async, because it's no longer 2003)
 
 A .NET client (SDK) for easy use of the [Recombee](https://www.recombee.com/) recommendation API.
 
