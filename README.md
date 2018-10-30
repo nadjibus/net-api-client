@@ -1,4 +1,4 @@
-# Recombee API Client (with Async, because it's no longer 2003)
+# Recombee Async API Client (because it's no longer 2003)
 
 A .NET client (SDK) for easy use of the [Recombee](https://www.recombee.com/) recommendation API.
 
@@ -8,9 +8,9 @@ Documentation of the API can be found at [docs.recombee.com](https://docs.recomb
 
 ## Installation
 
-To install Recombee.ApiClient, run the following command in the Package Manager Console
+To install RecombeeAsyncApiClient, run the following command in the Package Manager Console
 ```
-Install-Package Recombee.ApiClient
+Install-Package RecombeeAsyncApiClient
 ```
 
 ## Examples
