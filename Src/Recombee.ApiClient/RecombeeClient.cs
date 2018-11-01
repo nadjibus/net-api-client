@@ -224,33 +224,34 @@ namespace Recombee.ApiClient
         }
 
 
-        private Task<HttpResponseMessage> PerformHttpRequestAsync(string uri, Request request)
+        private async Task<HttpResponseMessage> PerformHttpRequestAsync(string uri, Request request)
         {
-            var httpRequest = new HttpRequestMessage(request.RequestHttpMethod, uri);
+            // https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/93e39b8f48169cce4803615519ef87bb2a969c8e/AsyncGuidance.md#always-dispose-cancellationtokensources-used-for-timeouts
 
-            var ctsTimeout = new CancellationTokenSource();
-            var requestTimeoutInSeconds = request.Timeout.TotalSeconds;
-            ctsTimeout.CancelAfter(requestTimeoutInSeconds > 0 ? request.Timeout : _httpClient.Timeout);
+            using (var ctsTimeout = new CancellationTokenSource(request.Timeout))
+            {
+                var httpRequest = new HttpRequestMessage(request.RequestHttpMethod, uri);
 
-            if (httpRequest.Method == HttpMethod.Put)
-            {
-                httpRequest.Content = new StringContent("");
-            }
-            else if (httpRequest.Method == HttpMethod.Post)
-            {
-                var bodyParams = JsonConvert.SerializeObject(request.BodyParameters());
-                httpRequest.Content = new StringContent(bodyParams, Encoding.UTF8, "application/json");
-            }
+                httpRequest.Headers.Add("User-Agent", UserAgent);
 
-            httpRequest.Headers.Add("User-Agent", UserAgent);
+                if (httpRequest.Method == HttpMethod.Put)
+                {
+                    httpRequest.Content = new StringContent("");
+                }
+                else if (httpRequest.Method == HttpMethod.Post)
+                {
+                    var requestBody = JsonConvert.SerializeObject(request.BodyParameters());
+                    httpRequest.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                }
 
-            try
-            {
-                return _httpClient.SendAsync(httpRequest, ctsTimeout.Token);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new TimeoutException(request, ex);
+                try
+                {
+                    return await _httpClient.SendAsync(httpRequest, ctsTimeout.Token);
+                }
+                catch (TaskCanceledException ex)
+                {
+                    throw new TimeoutException(request, ex);
+                }
             }
         }
 
