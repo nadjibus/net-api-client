@@ -1,5 +1,8 @@
 # Recombee Async API Client (because it's no longer 2003)
 
+## Important Note:
+- Recombee SDK now supports Async. If you're only interested in Async support, then there's no need to use this fork.
+
 ## What's different from the orginal SDK
 - All requests are now Async (SendAsync instead of Send)
 - Possibility to supply your own HttpClient instance in the constructor
